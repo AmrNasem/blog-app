@@ -1,18 +1,26 @@
+import { z } from 'zod';
+import { signupSchema } from "@/validations/user";
+
 export interface reactionType {
   src: string;
   id: string;
   alt: string;
   color: string;
 }
-export interface signupType {
-  name: string;
-  email: string;
-  password: string;
-}
+export type signupType = z.infer<typeof signupSchema>;
+// {
+//   name: string;
+//   email: string;
+//   password: string;
+// }
 
 export interface responseType {
-  error: boolean;
-  message: string;
-  status: number;
+  success: boolean;
+  errors?: {
+    [key: string]: string[];
+  };
+  message?: string;
+  status?: number;
   payload?: object;
+  data?: signupType;
 }

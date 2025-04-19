@@ -1,34 +1,49 @@
 "use client";
-import { responseType, signupType } from "@/lib/types";
+import { responseType } from "@/lib/types";
 import Link from "next/link";
-import { useActionState } from "react";
-import { signup } from "../actions";
+import { useActionState, useEffect } from "react";
+import { signup } from "../../../actions/auth";
 import { redirect } from "next/navigation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 
-let payload = { name: "", email: "", password: "" };
+const inputs = [
+  {
+    type: "text",
+    id: "name",
+    name: "name",
+    label: "Name",
+  },
+  {
+    type: "email",
+    id: "email",
+    name: "email",
+    label: "Email Address",
+  },
+  {
+    type: "password",
+    id: "password",
+    name: "password",
+    label: "Password",
+  },
+];
 
 const SignupPage = () => {
-  const [response, submitForm, isPending] = useActionState(
-    signup,
-    {} as responseType
-  );
+  const [{ success, message, data, errors }, submitForm, isPending] =
+    useActionState(signup, {} as responseType);
 
-  console.log(response);
-
-  if (response.error === false) {
-    redirect("/login");
-  } else if (response.error === true) payload = response.payload as signupType;
+  useEffect(() => {
+    if (success) redirect("/login");
+  }, [success]);
 
   return (
     <main className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md">
-        {response.error === true && (
+        {!success && message && (
           <Alert variant="destructive" className="bg-transparent mb-2">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{response.message}</AlertDescription>
+            <AlertDescription>{message}</AlertDescription>
           </Alert>
         )}
         <div className="p-8 bg-white rounded-lg shadow-md">
@@ -36,54 +51,34 @@ const SignupPage = () => {
             Sign Up
           </h2>
           <form action={submitForm} className="space-y-4">
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                defaultValue={payload.name}
-                required
-                className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                defaultValue={payload.email}
-                required
-                className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                defaultValue={payload.password}
-                required
-                className="w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
+            {inputs.map((input) => (
+              <div key={input.id}>
+                <label
+                  htmlFor={input.id}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {input.label}
+                </label>
+                <input
+                  autoFocus
+                  type={input.type}
+                  id={input.id}
+                  name={input.name}
+                  defaultValue={data?.[input.id as keyof typeof data]}
+                  className={`${
+                    errors?.[input.id as keyof typeof errors]
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border rounded-md focus:ring-blue-500 focus:border-blue-500`}
+                />
+                {errors?.[input.id as keyof typeof errors] &&
+                  errors[input.id as keyof typeof errors].map((error) => (
+                    <p key={error} className="text-sm text-red-500 mt-1">
+                      {error}
+                    </p>
+                  ))}
+              </div>
+            ))}
             <button
               type="submit"
               disabled={isPending}
@@ -93,7 +88,7 @@ const SignupPage = () => {
                   : "hover:bg-blue-700"
               }`}
             >
-              Sign Up
+              {isPending ? "Signing up..." : "Sign Up"}
             </button>
           </form>
           <p className="mt-4 text-sm text-center text-gray-600">

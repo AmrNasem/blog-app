@@ -2,7 +2,7 @@ import { normalizeBy1000 } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import Exapander from "./reuseable/Exapander";
+import Exapander from "../ui/Exapander";
 
 function InfoSide({ className }: { className?: string }) {
   return (
@@ -45,12 +45,12 @@ function InfoSide({ className }: { className?: string }) {
       <div>
         <h3 className="font-bold text-md mb-3">About Me</h3>
         <Exapander color="#fbf9fa" btnTextColor="#555">
-        <p className="text-sm text-gray-500 max-w-60">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur
-          inventore totam doloremque soluta, id quae voluptate ab repudiandae.
-          Iusto libero nesciunt eveniet esse commodi vel minus tempore debitis
-          perferendis delectus?
-        </p>
+          <p className="text-sm text-gray-500 max-w-60">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur
+            inventore totam doloremque soluta, id quae voluptate ab repudiandae.
+            Iusto libero nesciunt eveniet esse commodi vel minus tempore debitis
+            perferendis delectus?
+          </p>
         </Exapander>
       </div>
     </div>

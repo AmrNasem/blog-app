@@ -24,7 +24,6 @@ function Exapander({
   const expanderRef = (el: HTMLDivElement) => {
     if (el) {
       const exceedsMaxHeight = el.scrollHeight > maxHeight;
-      console.log(el.scrollHeight, maxHeight);
 
       if (exceedsMaxHeight) setIsOverflowing(true);
     }

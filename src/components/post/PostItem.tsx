@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import Exapander from "../reuseable/Exapander";
+import Exapander from "../ui/Exapander";
 import { MessageSquare, ThumbsUp, Send } from "lucide-react";
-import Avatar from "../reuseable/Avatar";
+import Avatar from "../ui/Avatar";
 import Reactions from "./Reactions";
 import { reactionType } from "@/lib/types";
 import { useCallback } from "react";
