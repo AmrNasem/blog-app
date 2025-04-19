@@ -1,0 +1,187 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum roles {
+  user
+  admin
+}
+
+enum post_status {
+  public
+  private
+}
+
+enum mediaTypes {
+  image
+  video
+  audio
+  file
+}
+
+enum mediaPurposes {
+  profile
+  cover
+  post
+}
+
+enum likeTypes {
+  like
+  love
+  support
+  haha
+  wow
+  sad
+  angry
+}
+
+enum likedTypes {
+  post
+  comment
+  reply
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  username  String    @unique
+  email     String    @unique
+  password  String
+  role      roles     @default(user)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  posts         Post[]
+  followings    Follow[]       @relation("followings")
+  followers     Follow[]       @relation("followers")
+  profile       Profile?
+  media         Media[]
+  likes         Like[]
+  comments      Comment[]
+  replies       Reply[]
+  notifications Notification[]
+}
+
+model Profile {
+  id         String   @id @default(uuid())
+  avatar     String?
+  coverImage String?
+  bio        String?
+  about      String?
+  userId     String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Follow {
+  id         String   @id @default(uuid())
+  followerId String
+  followeeId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  follower User @relation("followings", fields: [followerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  followee User @relation("followers", fields: [followeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([followerId, followeeId])
+}
+
+model Post {
+  id        String      @id @default(uuid())
+  title     String?
+  body      String?
+  authorId  String
+  status    post_status @default(public)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  media     Media[]
+  comment   Comment[]
+
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Media {
+  id        String        @id @default(uuid())
+  postId    String?
+  authorId  String
+  type      mediaTypes
+  purpose   mediaPurposes
+  url       String
+  caption   String?
+  position  Int?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  post   Post? @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  author User  @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Like {
+  id        String     @id @default(uuid())
+  authorId  String
+  likeType  likeTypes
+  likedId   String
+  likedType likedTypes
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([authorId, likedId])
+  @@index([likedType])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  authorId  String
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post    Post    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  replies Reply[]
+}
+
+model Reply {
+  id            String   @id @default(uuid())
+  content       String
+  authorId      String
+  commentId     String
+  parentReplyId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user        User    @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment     Comment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parentReply Reply?  @relation("parentReply", fields: [parentReplyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  replies     Reply[] @relation("parentReply")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
