@@ -23,11 +23,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const session = await verifySession();
-  // if (session?.userId) {
-  //   const { redirectTo } = await createSession(session.userId as string);
-  //   redirect(redirectTo);
-  // }
 
   return (
     <html lang="en">

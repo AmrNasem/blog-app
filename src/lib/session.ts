@@ -41,15 +41,17 @@ export async function createSession(userId: string) {
   const expires = new Date(Date.now() + cookie.duration);
   const session = await encrypt({ userId, expires });
   (await cookies()).set(cookie.name, session, { ...cookie.options, expires });
-  return { redirectTo, session };
+  return { session };
 }
 
 export async function verifySession() {
   const storedCookie = (await cookies()).get(cookie.name)?.value;
-  if (!storedCookie) redirect("/login");
+  if (!storedCookie) return { redirectTo: "/login" };
   const session = await decrypt(storedCookie);
 
-  if (!session?.userId) redirect("/login");
+  if (!session?.userId) return { redirectTo: "/login" };
+
+  await createSession(session.userId as string);
 
   return { userId: session.userId, redirectTo };
 }

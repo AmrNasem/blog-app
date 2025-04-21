@@ -122,8 +122,8 @@ export async function login(
     });
 
     if (!user) {
-      const err = new Error("Invalid email or password") as myError;
-      err.status = 400;
+      const err = new Error("User not found!") as myError;
+      err.status = 404;
       throw err;
     }
 
