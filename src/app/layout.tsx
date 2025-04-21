@@ -18,11 +18,17 @@ export const metadata: Metadata = {
     "This is a blog app where you can read and write blogs, like and comment them.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const session = await verifySession();
+  // if (session?.userId) {
+  //   const { redirectTo } = await createSession(session.userId as string);
+  //   redirect(redirectTo);
+  // }
+
   return (
     <html lang="en">
       <body

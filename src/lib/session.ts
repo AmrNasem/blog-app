@@ -41,7 +41,7 @@ export async function createSession(userId: string) {
   const expires = new Date(Date.now() + cookie.duration);
   const session = await encrypt({ userId, expires });
   (await cookies()).set(cookie.name, session, { ...cookie.options, expires });
-  return { redirectTo };
+  return { redirectTo, session };
 }
 
 export async function verifySession() {

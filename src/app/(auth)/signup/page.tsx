@@ -28,7 +28,7 @@ const inputs = [
   },
 ];
 
-const SignupPage = () => {
+const Signup = () => {
   const [{ success, message, data, errors }, submitForm, isPending] =
     useActionState(signup, {} as responseType);
 
@@ -47,7 +47,7 @@ const SignupPage = () => {
           </Alert>
         )}
         <div className="p-8 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
             Sign Up
           </h2>
           <form action={submitForm} className="space-y-4">
@@ -85,7 +85,7 @@ const SignupPage = () => {
               className={`w-full px-4 py-2 text-white bg-blue-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 isPending
                   ? "cursor-not-allowed opacity-50"
-                  : "hover:bg-blue-700"
+                  : "cursor-pointer hover:bg-blue-700"
               }`}
             >
               {isPending ? "Signing up..." : "Sign Up"}
@@ -103,4 +103,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default Signup;

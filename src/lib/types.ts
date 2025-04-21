@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { signupSchema } from "@/validations/user";
+import { loginSchema, signupSchema } from "@/validations/user";
 
 export interface reactionType {
   src: string;
@@ -8,11 +8,7 @@ export interface reactionType {
   color: string;
 }
 export type signupType = z.infer<typeof signupSchema>;
-// {
-//   name: string;
-//   email: string;
-//   password: string;
-// }
+export type loginType = z.infer<typeof loginSchema>;
 
 export interface responseType {
   success: boolean;
@@ -22,5 +18,5 @@ export interface responseType {
   message?: string;
   status?: number;
   payload?: object;
-  data?: signupType;
+  data?: object ;
 }

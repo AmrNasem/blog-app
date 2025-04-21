@@ -2,8 +2,8 @@
 
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { responseType, signupType } from "@/lib/types";
-import { signupSchema } from "@/validations/user";
+import { loginType, responseType, signupType } from "@/lib/types";
+import { loginSchema, signupSchema } from "@/validations/user";
 import { createSession } from "@/lib/session";
 
 interface myError extends Error {
@@ -17,14 +17,14 @@ export async function signup(
   prevState: responseType,
   formdata: FormData
 ): Promise<responseType> {
-  const signupData = {
+  const loginData = {
     name: formdata.get("name"),
     password: formdata.get("password"),
     email: formdata.get("email"),
   };
-  const validation = signupSchema.safeParse(signupData);
+  const validation = signupSchema.safeParse(loginData);
 
-  const { name, email, password } = signupData as signupType;
+  const { name, email, password } = loginData as signupType;
 
   try {
     if (!validation.success) {
@@ -75,13 +75,13 @@ export async function signup(
       },
     });
 
-    await createSession(user.id);
+    const { session } = await createSession(user.id);
 
     return {
       success: true,
       message: "User created successfully",
       status: 201,
-      payload: { user },
+      payload: { user, session },
     };
   } catch (error) {
     const err = error as myError;
@@ -92,6 +92,65 @@ export async function signup(
       status: err.status,
       errors: err.errors,
       data: { name, email, password },
+    };
+  }
+}
+
+export async function login(
+  prevState: responseType,
+  formdata: FormData
+): Promise<responseType> {
+  const loginData = {
+    password: formdata.get("password"),
+    email: formdata.get("email"),
+  };
+  const validation = loginSchema.safeParse(loginData);
+
+  const { email, password } = loginData as loginType;
+
+  try {
+    if (!validation.success) {
+      const err = new Error() as myError;
+      err.errors = validation.error.flatten().fieldErrors;
+      throw err;
+    }
+    // Find User
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      const err = new Error("Invalid email or password") as myError;
+      err.status = 400;
+      throw err;
+    }
+
+    // Hash password
+    const isIdentical = await bcrypt.compare(password, user.password);
+    if (!isIdentical) {
+      const err = new Error("Invalid email or password") as myError;
+      err.status = 400;
+      throw err;
+    }
+
+    const { session } = await createSession(user.id);
+    return {
+      success: true,
+      message: "Logged in successfully.",
+      status: 200,
+      payload: { user, session },
+    };
+  } catch (error) {
+    const err = error as myError;
+
+    return {
+      success: false,
+      message: err.message,
+      status: err.status,
+      errors: err.errors,
+      data: { email, password },
     };
   }
 }
