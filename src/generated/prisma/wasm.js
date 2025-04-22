@@ -135,6 +135,7 @@ exports.Prisma.ProfileScalarFieldEnum = {
   coverImage: 'coverImage',
   bio: 'bio',
   about: 'about',
+  isTouched: 'isTouched',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -150,10 +151,18 @@ exports.Prisma.FollowScalarFieldEnum = {
 
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
-  title: 'title',
   body: 'body',
   authorId: 'authorId',
   status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PostLikeScalarFieldEnum = {
+  id: 'id',
+  authorId: 'authorId',
+  likeType: 'likeType',
+  postId: 'postId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -171,21 +180,20 @@ exports.Prisma.MediaScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.LikeScalarFieldEnum = {
-  id: 'id',
-  authorId: 'authorId',
-  likeType: 'likeType',
-  likedId: 'likedId',
-  likedType: 'likedType',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
   content: 'content',
   authorId: 'authorId',
   postId: 'postId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CommentLikeScalarFieldEnum = {
+  id: 'id',
+  authorId: 'authorId',
+  likeType: 'likeType',
+  commentId: 'commentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -196,6 +204,15 @@ exports.Prisma.ReplyScalarFieldEnum = {
   authorId: 'authorId',
   commentId: 'commentId',
   parentReplyId: 'parentReplyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReplyLikeScalarFieldEnum = {
+  id: 'id',
+  authorId: 'authorId',
+  likeType: 'likeType',
+  replyId: 'replyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -234,6 +251,16 @@ exports.post_status = exports.$Enums.post_status = {
   private: 'private'
 };
 
+exports.likeTypes = exports.$Enums.likeTypes = {
+  like: 'like',
+  love: 'love',
+  support: 'support',
+  haha: 'haha',
+  wow: 'wow',
+  sad: 'sad',
+  angry: 'angry'
+};
+
 exports.mediaTypes = exports.$Enums.mediaTypes = {
   image: 'image',
   video: 'video',
@@ -247,31 +274,17 @@ exports.mediaPurposes = exports.$Enums.mediaPurposes = {
   post: 'post'
 };
 
-exports.likeTypes = exports.$Enums.likeTypes = {
-  like: 'like',
-  love: 'love',
-  support: 'support',
-  haha: 'haha',
-  wow: 'wow',
-  sad: 'sad',
-  angry: 'angry'
-};
-
-exports.likedTypes = exports.$Enums.likedTypes = {
-  post: 'post',
-  comment: 'comment',
-  reply: 'reply'
-};
-
 exports.Prisma.ModelName = {
   User: 'User',
   Profile: 'Profile',
   Follow: 'Follow',
   Post: 'Post',
+  PostLike: 'PostLike',
   Media: 'Media',
-  Like: 'Like',
   Comment: 'Comment',
+  CommentLike: 'CommentLike',
   Reply: 'Reply',
+  ReplyLike: 'ReplyLike',
   Notification: 'Notification'
 };
 

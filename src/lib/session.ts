@@ -51,8 +51,6 @@ export async function verifySession() {
 
   if (!session?.userId) return { redirectTo: "/login" };
 
-  await createSession(session.userId as string);
-
   return { userId: session.userId, redirectTo };
 }
 

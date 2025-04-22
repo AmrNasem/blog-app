@@ -50,7 +50,7 @@ export async function signup(
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Generating a unique username
-    const baseUsername = name.trim().toLowerCase().replace(/\s+/g, "_");
+    const baseUsername = name.trim().toLowerCase().replace(/(\s|\W)+/g, "_");
     let username = baseUsername;
     let counter = 1;
 

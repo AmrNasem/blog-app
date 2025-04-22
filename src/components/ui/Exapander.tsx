@@ -1,5 +1,5 @@
 "use client";
-import { PropsWithChildren, useState } from "react";
+import { memo, PropsWithChildren, useState } from "react";
 
 interface ExapanderProps extends PropsWithChildren {
   className?: string;
@@ -63,4 +63,4 @@ function Exapander({
   );
 }
 
-export default Exapander;
+export default memo(Exapander);

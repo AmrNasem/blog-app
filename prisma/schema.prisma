@@ -69,10 +69,12 @@ model User {
   followers     Follow[]       @relation("followers")
   profile       Profile?
   media         Media[]
-  likes         Like[]
+  likes         PostLike[]
   comments      Comment[]
   replies       Reply[]
   notifications Notification[]
+  CommentLike   CommentLike[]
+  ReplyLike     ReplyLike[]
 
   @@index([email])
 }
@@ -83,6 +85,7 @@ model Profile {
   coverImage String?
   bio        String?
   about      String?
+  isTouched  Boolean  @default(false)
   userId     String   @unique
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -105,16 +108,30 @@ model Follow {
 
 model Post {
   id        String      @id @default(uuid())
-  title     String?
   body      String?
   authorId  String
   status    post_status @default(public)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   media     Media[]
-  comment   Comment[]
+  comments  Comment[]
+
+  author User       @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  likes  PostLike[]
+}
+
+model PostLike {
+  id        String    @id @default(uuid())
+  authorId  String
+  likeType  likeTypes
+  postId    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([authorId, postId])
 }
 
 model Media {
@@ -133,21 +150,6 @@ model Media {
   author User  @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model Like {
-  id        String     @id @default(uuid())
-  authorId  String
-  likeType  likeTypes
-  likedId   String
-  likedType likedTypes
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@unique([authorId, likedId])
-  @@index([likedType])
-}
-
 model Comment {
   id        String   @id @default(uuid())
   content   String
@@ -156,9 +158,24 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user    User    @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  post    Post    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  author  User          @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post    Post          @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   replies Reply[]
+  likes   CommentLike[]
+}
+
+model CommentLike {
+  id        String    @id @default(uuid())
+  authorId  String
+  likeType  likeTypes
+  commentId String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  author  User    @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([authorId, commentId])
 }
 
 model Reply {
@@ -170,10 +187,25 @@ model Reply {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  user        User    @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  comment     Comment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  parentReply Reply?  @relation("parentReply", fields: [parentReplyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  replies     Reply[] @relation("parentReply")
+  user        User        @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment     Comment     @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parentReply Reply?      @relation("parentReply", fields: [parentReplyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  replies     Reply[]     @relation("parentReply")
+  likes       ReplyLike[]
+}
+
+model ReplyLike {
+  id        String    @id @default(uuid())
+  authorId  String
+  likeType  likeTypes
+  replyId   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  author User  @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  reply  Reply @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([authorId, replyId])
 }
 
 model Notification {

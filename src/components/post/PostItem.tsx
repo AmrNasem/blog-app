@@ -4,47 +4,73 @@ import Exapander from "../ui/Exapander";
 import { MessageSquare, ThumbsUp, Send } from "lucide-react";
 import Avatar from "../ui/Avatar";
 import Reactions from "./Reactions";
-import { reactionType } from "@/lib/types";
-import { useCallback } from "react";
+import { mediaType, reactionType } from "@/lib/types";
+import { memo, useCallback } from "react";
+import { likeTypes } from "@/generated/prisma";
+import { changeReactPost, reactPost, unreactPost } from "@/actions/posts";
 
 interface PostItemProps {
+  id: string;
   author: {
     avatar: string;
     name: string;
   };
   className?: string;
   time: string;
-  body: {
-    text?: string;
-    media?: [
-      {
-        src: string;
-        alt: string;
-        caption?: string;
-      }
-    ];
+  body: string;
+  media?: mediaType[];
+  likes: { authorId: string; author: { name: string }; likeType: string }[];
+  yourLike?: {
+    id: string;
+    authorId: string;
+    author: { name: string };
+    likeType: likeTypes;
   };
-  stats: {
-    likes: number;
-    comments: number;
-  };
+  comments: { author: { name: string } }[];
 }
 
-function PostItem({ author, className, time, body, stats }: PostItemProps) {
-  const onReact = useCallback((reaction: reactionType | null) => {
-    // React request here
-    console.log(reaction);
-  }, []);
+function PostItem({
+  id,
+  author,
+  className,
+  time,
+  body,
+  likes,
+  comments,
+  media,
+  yourLike,
+}: PostItemProps) {
+  const onReact = useCallback(
+    async (
+      reaction: reactionType | undefined,
+      action: string,
+      callback: () => void
+    ) => {
+      // React request here
+      let newReaction;
+
+      if (action === "POST") newReaction = await reactPost(reaction?.id, id);
+      else if (action === "DELETE")
+        newReaction = await unreactPost(yourLike?.id);
+      else newReaction = await changeReactPost(yourLike?.id, reaction?.id);
+
+      if (!newReaction) callback();
+    },
+    [id, yourLike]
+  );
+
+  console.log(yourLike);
+
   const onComment = useCallback(() => {
     // Comment request here
   }, []);
 
   return (
     <div
-      className={`${className} min-h-[300px] flex flex-col post-item border rounded-lg p-4 shadow-md bg-white`}
+      className={`${className} min-h-[300px] flex flex-col post-item border rounded-lg py-4 shadow-md bg-white`}
     >
       {/* Author Info */}
-      <div className="post-author flex items-center mb-4 gap-1">
+      <div className="post-author flex items-center mb-4 gap-1 px-4">
         <Avatar src={author.avatar} alt={author.name} />
         <div>
           <h4 className="font-semibold">{author.name}</h4>
@@ -54,21 +80,21 @@ function PostItem({ author, className, time, body, stats }: PostItemProps) {
 
       {/* Post Body */}
       <div className="post-body mb-4 flex-1">
-        {body.text && (
-          <Exapander>
-            <p className="text-gray-800 mb-2 mx-2.5">{body.text}</p>
+        {body && (
+          <Exapander className="px-4">
+            <p className="text-gray-800 mb-2 mx-2.5">{body}</p>
           </Exapander>
         )}
-        {body.media && (
+        {media && (
           <div className="post-media mb-2">
-            {body.media.map((medium) => (
-              <div className="relative" key={medium.src}>
+            {media.map((medium) => (
+              <div className="relative h-100 my-8" key={medium.url}>
                 <Image
-                  width="200"
-                  height="200"
-                  src={medium.src}
+                  width="800"
+                  height="400"
+                  src={medium.url}
                   alt={medium.caption || "Post media"}
-                  className="w-full rounded-lg"
+                  className="w-full h-full object-cover"
                 />
 
                 <p className="text-sm text-gray-500">{medium.caption}</p>
@@ -79,24 +105,32 @@ function PostItem({ author, className, time, body, stats }: PostItemProps) {
       </div>
 
       {/* Viewing Stats */}
-      <div className="px-2.5 flex justify-between items-center text-sm text-gray-600 mb-4">
-        <div className="relative group">
-          <p className="cursor-pointer">{stats.likes} Likes</p>
-          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg">
-            <p className="text-sm text-gray-700">8 people reacted</p>
+      <div className="px-6.5 flex justify-between items-center text-sm text-gray-600 mb-4">
+        {likes.length ? (
+          <div className="relative group">
+            <p className="cursor-pointer">{likes.length} Likes</p>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg">
+              <p className="text-sm text-gray-700">8 people reacted</p>
+            </div>
           </div>
-        </div>
-        <div className="relative group">
-          <p className="cursor-pointer">{stats.comments} Comments</p>
-          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg">
-            <p className="text-sm text-gray-700">8 people commented</p>
+        ) : (
+          <p className="">Be the first to like</p>
+        )}
+        {comments.length ? (
+          <div className="relative group">
+            <p className="cursor-pointer">{comments.length} Comments</p>
+            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg">
+              <p className="text-sm text-gray-700">8 people commented</p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <p>No comments yet</p>
+        )}
       </div>
 
       {/* Actions */}
-      <div className="flex justify-around space-x-4">
-        <Reactions onReact={onReact}>
+      <div className="flex justify-around space-x-4 px-4">
+        <Reactions onReact={onReact} initialReaction={yourLike?.likeType}>
           <ThumbsUp />
           <span className="text-gray-700">Like</span>
         </Reactions>
@@ -110,7 +144,7 @@ function PostItem({ author, className, time, body, stats }: PostItemProps) {
       </div>
 
       {/* Comment Form */}
-      <div className="mt-4 flex gap-1">
+      <div className="mt-4 flex gap-1 px-4">
         <Avatar src={author.avatar} alt={author.name} />
         <form className="flex-1 flex items-center space-x-2">
           <input
@@ -130,4 +164,4 @@ function PostItem({ author, className, time, body, stats }: PostItemProps) {
   );
 }
 
-export default PostItem;
+export default memo(PostItem);

@@ -1,9 +1,10 @@
-import { z } from 'zod';
+import { z } from "zod";
 import { loginSchema, signupSchema } from "@/validations/user";
+import { likeTypes } from "@/generated/prisma";
 
 export interface reactionType {
   src: string;
-  id: string;
+  id: likeTypes;
   alt: string;
   color: string;
 }
@@ -18,5 +19,31 @@ export interface responseType {
   message?: string;
   status?: number;
   payload?: object;
-  data?: object ;
+  data?: object;
+}
+
+enum mediaTypes {
+  image,
+  video,
+  audio,
+  file,
+}
+
+enum mediaPurposes {
+  profile,
+  cover,
+  post,
+}
+
+export interface mediaType {
+  id: string;
+  postId?: string | null;
+  authorId: string;
+  type: mediaTypes;
+  purpose: mediaPurposes;
+  url: string;
+  caption?: string | null;
+  position?: number | null;
+  createdAt: Date;
+  updatedAt: Date;
 }

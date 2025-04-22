@@ -1,52 +1,63 @@
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "../ui/hover-card";
 import { reactionType } from "@/lib/types";
+import { likeTypes } from "@/generated/prisma";
+
+interface reactionsPropsType {
+  onReact: (
+    newReaction: reactionType | undefined,
+    action: string,
+    callback: () => void
+  ) => void;
+  children?: React.ReactNode;
+  initialReaction?: string;
+}
 
 const reactions: reactionType[] = [
   {
     src: "/app/reactions/like.svg",
-    id: "like",
+    id: likeTypes.like,
     alt: "Like",
     color: "#0471e5",
   },
   {
     src: "/app/reactions/love.svg",
-    id: "love",
+    id: likeTypes.love,
     alt: "Love",
     color: "#eb2647",
   },
   {
     src: "/app/reactions/care.svg",
-    id: "support",
+    id: likeTypes.support,
     alt: "Support",
     color: "#f17b58",
   },
   {
     src: "/app/reactions/haha.svg",
-    id: "haha",
+    id: likeTypes.haha,
     alt: "Haha",
     color: "#f7c94c",
   },
   {
     src: "/app/reactions/wow.svg",
-    id: "wow",
+    id: likeTypes.wow,
     alt: "Wow",
     color: "#fbc737",
   },
   {
     src: "/app/reactions/sad.svg",
-    id: "sad",
+    id: likeTypes.sad,
     alt: "Sad",
     color: "#f7a441",
   },
   {
     src: "/app/reactions/angry.svg",
-    id: "angry",
+    id: likeTypes.angry,
     alt: "Angry",
     color: "#f17b58",
   },
@@ -55,21 +66,33 @@ const reactions: reactionType[] = [
 function Reactions({
   onReact,
   children,
-}: {
-  onReact: (newReaction: reactionType | null) => void;
-  children?: React.ReactNode;
-}) {
-  const [reaction, setReaction] = useState<reactionType | null>(null);
+  initialReaction,
+}: reactionsPropsType) {
+  const [reaction, setReaction] = useState<reactionType | undefined>(
+    reactions.find((r) => r.id === initialReaction)
+  );
   const [isOpen, setOpen] = useState(false);
 
   // Function to handle reaction button click
   const handleReaction = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const newReaction =
-      reactions.find((r) => r.id === e.currentTarget.id) ||
-      (reaction ? null : reactions[0]);
+    let newReaction = reactions.find((r) => r.id === e.currentTarget.id);
+
+    const callback = () => {
+      setReaction(reaction);
+    };
+
+    if (reaction) {
+      if (e.currentTarget.id === "toggle")
+        onReact(newReaction, "DELETE", callback);
+      else onReact(newReaction, "PUT", callback);
+    } else {
+      if (e.currentTarget.id === "toggle") {
+        newReaction = reactions[0];
+        onReact(newReaction, "POST", callback);
+      } else onReact(newReaction, "POST", callback);
+    }
 
     setReaction(newReaction);
-    onReact(newReaction);
     setOpen(false);
   };
 
@@ -82,6 +105,7 @@ function Reactions({
     >
       <HoverCardTrigger>
         <button
+          id="toggle"
           onClick={handleReaction}
           className={`flex gap-1 cursor-pointer px-3 py-2 text-center rounded-lg`}
         >
@@ -133,4 +157,4 @@ function Reactions({
   );
 }
 
-export default Reactions;
+export default memo(Reactions);
