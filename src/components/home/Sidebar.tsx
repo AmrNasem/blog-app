@@ -7,6 +7,7 @@ import {
   NotepadText,
   CopyPlus,
   User,
+  LucideLogOut,
 } from "lucide-react";
 
 import {
@@ -21,6 +22,8 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { logout } from "@/actions/auth";
+import { useTransition } from "react";
 
 // Menu groups.
 const groups = [
@@ -73,6 +76,7 @@ const groups = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const[pending, startTransition] = useTransition();
   return (
     <Sidebar>
       <SidebarContent>
@@ -95,6 +99,10 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
+        <button disabled={pending} onClick={() => startTransition(logout)} className="disabled:opacity-50 text-red-500 flex items-center px-2 mx-1 py-1 hover:bg-accent duration-100 rounded-md cursor-pointer gap-1 font-semibold">
+          <LucideLogOut className="rotate-y-180" width="20" />
+          <span>Logout</span>
+        </button>
       </SidebarContent>
     </Sidebar>
   );

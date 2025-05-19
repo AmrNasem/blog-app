@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { loginType, responseType, signupType } from "@/lib/types";
 import { loginSchema, signupSchema } from "@/validations/user";
-import { createSession } from "@/lib/session";
+import { createSession, deleteSession } from "@/lib/session";
 
 interface myError extends Error {
   status: number;
@@ -153,4 +153,8 @@ export async function login(
       data: { email, password },
     };
   }
+}
+
+export async function logout() {
+  await deleteSession();
 }
