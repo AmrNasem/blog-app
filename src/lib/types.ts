@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { loginSchema, signupSchema } from "@/validations/user";
-import { likeTypes } from "@/generated/prisma";
+import { likeTypes, Media, Post, PostLike, Profile, User } from "@/generated/prisma";
 
 export interface reactionType {
   src: string;
@@ -47,3 +47,18 @@ export interface mediaType {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type FeedPostLike = PostLike & {
+    author: User & {
+      profile: Profile
+    }
+}
+
+export type FeedPost = Post & {
+  likes: FeedPostLike[],
+  comments: Comment[],
+  media: Media[],
+  author: User & {
+    profile: Profile
+  }
+};

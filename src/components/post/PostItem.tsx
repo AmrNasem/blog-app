@@ -4,42 +4,21 @@ import Exapander from "../ui/Exapander";
 import { MessageSquare, ThumbsUp, Send } from "lucide-react";
 import Avatar from "../ui/Avatar";
 import Reactions from "./Reactions";
-import { mediaType, reactionType } from "@/lib/types";
+import { FeedPost, reactionType } from "@/lib/types";
 import { memo, useCallback } from "react";
-import { likeTypes } from "@/generated/prisma";
 import { changeReactPost, reactPost, unreactPost } from "@/actions/posts";
+import ReactionViewer from "./ReactionViewer";
+import { Media, PostLike } from "@/generated/prisma";
 
-interface PostItemProps {
-  id: string;
-  author: {
-    avatar: string;
-    name: string;
-  };
+type PostProps = {
+  post: FeedPost;
   className?: string;
-  time: string;
-  body: string;
-  media?: mediaType[];
-  likes: { authorId: string; author: { name: string }; likeType: string }[];
-  yourLike?: {
-    id: string;
-    authorId: string;
-    author: { name: string };
-    likeType: likeTypes;
-  };
-  comments: { author: { name: string } }[];
-}
+  yourLike?: PostLike | undefined;
+};
 
-function PostItem({
-  id,
-  author,
-  className,
-  time,
-  body,
-  likes,
-  comments,
-  media,
-  yourLike,
-}: PostItemProps) {
+function PostItem({ className, post, yourLike }: PostProps) {
+  console.log(post);
+
   const onReact = useCallback(
     async (
       reaction: reactionType | undefined,
@@ -49,17 +28,16 @@ function PostItem({
       // React request here
       let newReaction;
 
-      if (action === "POST") newReaction = await reactPost(reaction?.id, id);
+      if (action === "POST")
+        newReaction = await reactPost(reaction?.id, post.id);
       else if (action === "DELETE")
         newReaction = await unreactPost(yourLike?.id);
       else newReaction = await changeReactPost(yourLike?.id, reaction?.id);
 
       if (!newReaction) callback();
     },
-    [id, yourLike]
+    [yourLike, post.id]
   );
-
-  console.log(yourLike);
 
   const onComment = useCallback(() => {
     // Comment request here
@@ -71,23 +49,34 @@ function PostItem({
     >
       {/* Author Info */}
       <div className="post-author flex items-center mb-4 gap-1 px-4">
-        <Avatar src={author.avatar} alt={author.name} />
+        <Avatar
+          src={post.author.profile.avatar || "/app/user-avatar.png"}
+          alt={post.author.name}
+        />
         <div>
-          <h4 className="font-semibold">{author.name}</h4>
-          <p className="text-[13px] text-gray-500">{time}</p>
+          <h4 className="font-semibold">{post.author.name}</h4>
+          <p className="text-[13px] text-gray-500">
+            {post.createdAt.toLocaleString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+            })}
+          </p>
         </div>
       </div>
 
       {/* Post Body */}
       <div className="post-body mb-4 flex-1">
-        {body && (
+        {post.body && (
           <Exapander className="px-4">
-            <p className="text-gray-800 mb-2 mx-2.5">{body}</p>
+            <p className="text-gray-800 mb-2 mx-2.5">{post.body}</p>
           </Exapander>
         )}
-        {media && (
+        {post.media && (
           <div className="post-media mb-2">
-            {media.map((medium) => (
+            {post.media.map((medium: Media) => (
               <div className="relative h-100 my-8" key={medium.url}>
                 <Image
                   width="800"
@@ -106,19 +95,14 @@ function PostItem({
 
       {/* Viewing Stats */}
       <div className="px-6.5 flex justify-between items-center text-sm text-gray-600 mb-4">
-        {likes.length ? (
-          <div className="relative group">
-            <p className="cursor-pointer">{likes.length} Likes</p>
-            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg">
-              <p className="text-sm text-gray-700">8 people reacted</p>
-            </div>
-          </div>
+        {post.likes.length ? (
+              <ReactionViewer likes={post.likes} />
         ) : (
           <p className="">Be the first to like</p>
         )}
-        {comments.length ? (
+        {post.comments.length ? (
           <div className="relative group">
-            <p className="cursor-pointer">{comments.length} Comments</p>
+            <p className="cursor-pointer">{post.comments.length} Comments</p>
             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg">
               <p className="text-sm text-gray-700">8 people commented</p>
             </div>
@@ -145,7 +129,10 @@ function PostItem({
 
       {/* Comment Form */}
       <div className="mt-4 flex gap-1 px-4">
-        <Avatar src={author.avatar} alt={author.name} />
+        <Avatar
+          src={post.author.profile.avatar || "/app/user-avatar.png"}
+          alt={post.author.name}
+        />
         <form className="flex-1 flex items-center space-x-2">
           <input
             type="text"

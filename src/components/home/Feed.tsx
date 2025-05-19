@@ -1,5 +1,8 @@
 import { getFeed } from "@/actions/users";
 import PostItem from "../post/PostItem";
+import { verifySession } from "@/lib/session";
+import { FeedPost } from "@/lib/types";
+import { Post } from "@/generated/prisma";
 
 // const media = [
 //   // {
@@ -26,33 +29,23 @@ import PostItem from "../post/PostItem";
 
 async function Feed() {
   const feed = await getFeed();
-  console.log(feed);
-
-  console.log(feed[0]?.media)
+  const { userId } = await verifySession();
 
   return (
     <div className="max-w-4xl mx-auto">
-      {feed.map((post) => {
+      {feed.length === 0 && (
+        <p className="bg-transparent text-blue-500 font-semibold border rounded-md p-4 text-xl text-center max-w-10/12 mx-auto my-4">
+          Your feed is empty, may be follow some friends.
+        </p>
+      )}
+      {feed.map((post: Post) => {
         return (
           <PostItem
             key={post.id}
-            id={post.id}
-            author={{
-              avatar: post.author.profile?.avatar || "/app/user-avatar.png",
-              name: post.author.name,
-            }}
-            time={new Date(post.createdAt).toLocaleString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-              hour: "numeric",
-              minute: "2-digit",
-            })}
-            body={post.body || ""}
-            // media={post.media as mediaType}
-            yourLike={post.yourLike}
-            likes={post.likes}
-            comments={post.comments}
+            post={post as FeedPost}
+            yourLike={(post as FeedPost).likes.find(
+              (like) => like.authorId === userId
+            )}
             className="my-5"
           />
         );

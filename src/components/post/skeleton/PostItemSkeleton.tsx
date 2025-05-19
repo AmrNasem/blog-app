@@ -1,7 +1,8 @@
-
-export function PostItemSkeleton() {
+export function PostItemSkeleton({ className }: { className?: string }) {
   return (
-    <div className="min-h-[300px] flex flex-col border rounded-lg py-4 shadow-md bg-white animate-pulse">
+    <div
+      className={`${className} min-h-[300px] flex flex-col border rounded-lg py-4 shadow-md bg-white animate-pulse`}
+    >
       {/* Author Info Skeleton */}
       <div className="flex items-center mb-4 gap-1 px-4">
         <div className="w-10 h-10 bg-gray-300 rounded-full"></div>

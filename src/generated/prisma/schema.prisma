@@ -54,7 +54,7 @@ enum likedTypes {
 }
 
 model User {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   name      String
   username  String    @unique
   email     String    @unique
@@ -73,14 +73,14 @@ model User {
   comments      Comment[]
   replies       Reply[]
   notifications Notification[]
-  CommentLike   CommentLike[]
-  ReplyLike     ReplyLike[]
+  commentLikes  CommentLike[]
+  replyLikes    ReplyLike[]
 
   @@index([email])
 }
 
 model Profile {
-  id         String   @id @default(uuid())
+  id         String   @id @default(cuid())
   avatar     String?
   coverImage String?
   bio        String?
@@ -94,7 +94,7 @@ model Profile {
 }
 
 model Follow {
-  id         String   @id @default(uuid())
+  id         String   @id @default(cuid())
   followerId String
   followeeId String
   createdAt  DateTime @default(now())
@@ -107,7 +107,7 @@ model Follow {
 }
 
 model Post {
-  id        String      @id @default(uuid())
+  id        String      @id @default(cuid())
   body      String?
   authorId  String
   status    post_status @default(public)
@@ -121,7 +121,7 @@ model Post {
 }
 
 model PostLike {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   authorId  String
   likeType  likeTypes
   postId    String
@@ -135,7 +135,7 @@ model PostLike {
 }
 
 model Media {
-  id        String        @id @default(uuid())
+  id        String        @id @default(cuid())
   postId    String?
   authorId  String
   type      mediaTypes
@@ -151,7 +151,7 @@ model Media {
 }
 
 model Comment {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   content   String
   authorId  String
   postId    String
@@ -165,7 +165,7 @@ model Comment {
 }
 
 model CommentLike {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   authorId  String
   likeType  likeTypes
   commentId String
@@ -179,7 +179,7 @@ model CommentLike {
 }
 
 model Reply {
-  id            String   @id @default(uuid())
+  id            String   @id @default(cuid())
   content       String
   authorId      String
   commentId     String
@@ -195,7 +195,7 @@ model Reply {
 }
 
 model ReplyLike {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   authorId  String
   likeType  likeTypes
   replyId   String
@@ -209,7 +209,7 @@ model ReplyLike {
 }
 
 model Notification {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   userId    String
   type      String
   message   String

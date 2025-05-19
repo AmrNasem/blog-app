@@ -5,7 +5,7 @@ function FeedSkeleton() {
   return (
     <div className="max-w-4xl mx-auto">
       {[...Array(3).keys()].map((i) => (
-        <PostItemSkeleton key={i} />
+        <PostItemSkeleton key={i} className="my-3" />
       ))}
     </div>
   );

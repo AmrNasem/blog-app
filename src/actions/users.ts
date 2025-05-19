@@ -44,22 +44,17 @@ export async function getFeed() {
     include: {
       author: { omit: { password: true }, include: { profile: {} } },
       media: {},
-      comments: { select: { author: { select: { name: true } } } },
+      comments: { select: { author: { include: { profile: true } } } },
       likes: {
         select: {
           id: true,
           authorId: true,
-          author: { select: { name: true } },
+          author: { include: { profile: true } },
           likeType: true,
         },
       },
     },
   });
 
-  const formattedPosts = posts.map((post) => ({
-    ...post,
-    yourLike: post.likes.find((like) => like.authorId === userId),
-  }));
-
-  return formattedPosts;
+  return posts;
 }

@@ -1873,8 +1873,8 @@ export namespace Prisma {
     comments: number
     replies: number
     notifications: number
-    CommentLike: number
-    ReplyLike: number
+    commentLikes: number
+    replyLikes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1886,8 +1886,8 @@ export namespace Prisma {
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
     replies?: boolean | UserCountOutputTypeCountRepliesArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
-    CommentLike?: boolean | UserCountOutputTypeCountCommentLikeArgs
-    ReplyLike?: boolean | UserCountOutputTypeCountReplyLikeArgs
+    commentLikes?: boolean | UserCountOutputTypeCountCommentLikesArgs
+    replyLikes?: boolean | UserCountOutputTypeCountReplyLikesArgs
   }
 
   // Custom InputTypes
@@ -1960,14 +1960,14 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCommentLikeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountCommentLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentLikeWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountReplyLikeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountReplyLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReplyLikeWhereInput
   }
 
@@ -2310,8 +2310,8 @@ export namespace Prisma {
     comments?: boolean | User$commentsArgs<ExtArgs>
     replies?: boolean | User$repliesArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
-    CommentLike?: boolean | User$CommentLikeArgs<ExtArgs>
-    ReplyLike?: boolean | User$ReplyLikeArgs<ExtArgs>
+    commentLikes?: boolean | User$commentLikesArgs<ExtArgs>
+    replyLikes?: boolean | User$replyLikesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2362,8 +2362,8 @@ export namespace Prisma {
     comments?: boolean | User$commentsArgs<ExtArgs>
     replies?: boolean | User$repliesArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
-    CommentLike?: boolean | User$CommentLikeArgs<ExtArgs>
-    ReplyLike?: boolean | User$ReplyLikeArgs<ExtArgs>
+    commentLikes?: boolean | User$commentLikesArgs<ExtArgs>
+    replyLikes?: boolean | User$replyLikesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2381,8 +2381,8 @@ export namespace Prisma {
       comments: Prisma.$CommentPayload<ExtArgs>[]
       replies: Prisma.$ReplyPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
-      CommentLike: Prisma.$CommentLikePayload<ExtArgs>[]
-      ReplyLike: Prisma.$ReplyLikePayload<ExtArgs>[]
+      commentLikes: Prisma.$CommentLikePayload<ExtArgs>[]
+      replyLikes: Prisma.$ReplyLikePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2797,8 +2797,8 @@ export namespace Prisma {
     comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     replies<T extends User$repliesArgs<ExtArgs> = {}>(args?: Subset<T, User$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    CommentLike<T extends User$CommentLikeArgs<ExtArgs> = {}>(args?: Subset<T, User$CommentLikeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    ReplyLike<T extends User$ReplyLikeArgs<ExtArgs> = {}>(args?: Subset<T, User$ReplyLikeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReplyLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    commentLikes<T extends User$commentLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$commentLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    replyLikes<T extends User$replyLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$replyLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReplyLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3436,9 +3436,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.CommentLike
+   * User.commentLikes
    */
-  export type User$CommentLikeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$commentLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the CommentLike
      */
@@ -3460,9 +3460,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.ReplyLike
+   * User.replyLikes
    */
-  export type User$ReplyLikeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$replyLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ReplyLike
      */
@@ -14998,8 +14998,8 @@ export namespace Prisma {
     comments?: CommentListRelationFilter
     replies?: ReplyListRelationFilter
     notifications?: NotificationListRelationFilter
-    CommentLike?: CommentLikeListRelationFilter
-    ReplyLike?: ReplyLikeListRelationFilter
+    commentLikes?: CommentLikeListRelationFilter
+    replyLikes?: ReplyLikeListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -15021,8 +15021,8 @@ export namespace Prisma {
     comments?: CommentOrderByRelationAggregateInput
     replies?: ReplyOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
-    CommentLike?: CommentLikeOrderByRelationAggregateInput
-    ReplyLike?: ReplyLikeOrderByRelationAggregateInput
+    commentLikes?: CommentLikeOrderByRelationAggregateInput
+    replyLikes?: ReplyLikeOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -15047,8 +15047,8 @@ export namespace Prisma {
     comments?: CommentListRelationFilter
     replies?: ReplyListRelationFilter
     notifications?: NotificationListRelationFilter
-    CommentLike?: CommentLikeListRelationFilter
-    ReplyLike?: ReplyLikeListRelationFilter
+    commentLikes?: CommentLikeListRelationFilter
+    replyLikes?: ReplyLikeListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -15791,8 +15791,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -15814,8 +15814,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUpdateInput = {
@@ -15837,8 +15837,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -15860,8 +15860,8 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -16335,7 +16335,7 @@ export namespace Prisma {
     likeType: $Enums.likeTypes
     createdAt?: Date | string
     updatedAt?: Date | string
-    author: UserCreateNestedOneWithoutCommentLikeInput
+    author: UserCreateNestedOneWithoutCommentLikesInput
     comment: CommentCreateNestedOneWithoutLikesInput
   }
 
@@ -16353,7 +16353,7 @@ export namespace Prisma {
     likeType?: EnumlikeTypesFieldUpdateOperationsInput | $Enums.likeTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutCommentLikeNestedInput
+    author?: UserUpdateOneRequiredWithoutCommentLikesNestedInput
     comment?: CommentUpdateOneRequiredWithoutLikesNestedInput
   }
 
@@ -16471,7 +16471,7 @@ export namespace Prisma {
     likeType: $Enums.likeTypes
     createdAt?: Date | string
     updatedAt?: Date | string
-    author: UserCreateNestedOneWithoutReplyLikeInput
+    author: UserCreateNestedOneWithoutReplyLikesInput
     reply: ReplyCreateNestedOneWithoutLikesInput
   }
 
@@ -16489,7 +16489,7 @@ export namespace Prisma {
     likeType?: EnumlikeTypesFieldUpdateOperationsInput | $Enums.likeTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutReplyLikeNestedInput
+    author?: UserUpdateOneRequiredWithoutReplyLikesNestedInput
     reply?: ReplyUpdateOneRequiredWithoutLikesNestedInput
   }
 
@@ -18177,9 +18177,9 @@ export namespace Prisma {
     deleteMany?: CommentLikeScalarWhereInput | CommentLikeScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutCommentLikeInput = {
-    create?: XOR<UserCreateWithoutCommentLikeInput, UserUncheckedCreateWithoutCommentLikeInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCommentLikeInput
+  export type UserCreateNestedOneWithoutCommentLikesInput = {
+    create?: XOR<UserCreateWithoutCommentLikesInput, UserUncheckedCreateWithoutCommentLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommentLikesInput
     connect?: UserWhereUniqueInput
   }
 
@@ -18189,12 +18189,12 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutCommentLikeNestedInput = {
-    create?: XOR<UserCreateWithoutCommentLikeInput, UserUncheckedCreateWithoutCommentLikeInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCommentLikeInput
-    upsert?: UserUpsertWithoutCommentLikeInput
+  export type UserUpdateOneRequiredWithoutCommentLikesNestedInput = {
+    create?: XOR<UserCreateWithoutCommentLikesInput, UserUncheckedCreateWithoutCommentLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommentLikesInput
+    upsert?: UserUpsertWithoutCommentLikesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommentLikeInput, UserUpdateWithoutCommentLikeInput>, UserUncheckedUpdateWithoutCommentLikeInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommentLikesInput, UserUpdateWithoutCommentLikesInput>, UserUncheckedUpdateWithoutCommentLikesInput>
   }
 
   export type CommentUpdateOneRequiredWithoutLikesNestedInput = {
@@ -18333,9 +18333,9 @@ export namespace Prisma {
     deleteMany?: ReplyLikeScalarWhereInput | ReplyLikeScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutReplyLikeInput = {
-    create?: XOR<UserCreateWithoutReplyLikeInput, UserUncheckedCreateWithoutReplyLikeInput>
-    connectOrCreate?: UserCreateOrConnectWithoutReplyLikeInput
+  export type UserCreateNestedOneWithoutReplyLikesInput = {
+    create?: XOR<UserCreateWithoutReplyLikesInput, UserUncheckedCreateWithoutReplyLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReplyLikesInput
     connect?: UserWhereUniqueInput
   }
 
@@ -18345,12 +18345,12 @@ export namespace Prisma {
     connect?: ReplyWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutReplyLikeNestedInput = {
-    create?: XOR<UserCreateWithoutReplyLikeInput, UserUncheckedCreateWithoutReplyLikeInput>
-    connectOrCreate?: UserCreateOrConnectWithoutReplyLikeInput
-    upsert?: UserUpsertWithoutReplyLikeInput
+  export type UserUpdateOneRequiredWithoutReplyLikesNestedInput = {
+    create?: XOR<UserCreateWithoutReplyLikesInput, UserUncheckedCreateWithoutReplyLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReplyLikesInput
+    upsert?: UserUpsertWithoutReplyLikesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReplyLikeInput, UserUpdateWithoutReplyLikeInput>, UserUncheckedUpdateWithoutReplyLikeInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReplyLikesInput, UserUpdateWithoutReplyLikesInput>, UserUncheckedUpdateWithoutReplyLikesInput>
   }
 
   export type ReplyUpdateOneRequiredWithoutLikesNestedInput = {
@@ -19267,8 +19267,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutProfileInput = {
@@ -19289,8 +19289,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutProfileInput = {
@@ -19327,8 +19327,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProfileInput = {
@@ -19349,8 +19349,8 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutFollowingsInput = {
@@ -19371,8 +19371,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutFollowingsInput = {
@@ -19393,8 +19393,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutFollowingsInput = {
@@ -19420,8 +19420,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutFollowersInput = {
@@ -19442,8 +19442,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutFollowersInput = {
@@ -19480,8 +19480,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowingsInput = {
@@ -19502,8 +19502,8 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUpsertWithoutFollowersInput = {
@@ -19535,8 +19535,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -19557,8 +19557,8 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type MediaCreateWithoutPostInput = {
@@ -19643,8 +19643,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -19665,8 +19665,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -19761,8 +19761,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -19783,8 +19783,8 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type PostLikeUpsertWithWhereUniqueWithoutPostInput = {
@@ -19821,8 +19821,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutLikesInput = {
@@ -19843,8 +19843,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutLikesInput = {
@@ -19908,8 +19908,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLikesInput = {
@@ -19930,8 +19930,8 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type PostUpsertWithoutLikesInput = {
@@ -20012,8 +20012,8 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutMediaInput = {
@@ -20034,8 +20034,8 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutMediaInput = {
@@ -20105,8 +20105,8 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMediaInput = {
@@ -20127,8 +20127,8 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateWithoutCommentsInput = {
@@ -20149,8 +20149,8 @@ export namespace Prisma {
     likes?: PostLikeCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -20171,8 +20171,8 @@ export namespace Prisma {
     likes?: PostLikeUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -20244,7 +20244,7 @@ export namespace Prisma {
     likeType: $Enums.likeTypes
     createdAt?: Date | string
     updatedAt?: Date | string
-    author: UserCreateNestedOneWithoutCommentLikeInput
+    author: UserCreateNestedOneWithoutCommentLikesInput
   }
 
   export type CommentLikeUncheckedCreateWithoutCommentInput = {
@@ -20294,8 +20294,8 @@ export namespace Prisma {
     likes?: PostLikeUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -20316,8 +20316,8 @@ export namespace Prisma {
     likes?: PostLikeUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type PostUpsertWithoutCommentsInput = {
@@ -20385,7 +20385,7 @@ export namespace Prisma {
     data: XOR<CommentLikeUpdateManyMutationInput, CommentLikeUncheckedUpdateManyWithoutCommentInput>
   }
 
-  export type UserCreateWithoutCommentLikeInput = {
+  export type UserCreateWithoutCommentLikesInput = {
     id?: string
     name: string
     username: string
@@ -20404,10 +20404,10 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
-  export type UserUncheckedCreateWithoutCommentLikeInput = {
+  export type UserUncheckedCreateWithoutCommentLikesInput = {
     id?: string
     name: string
     username: string
@@ -20426,12 +20426,12 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
-  export type UserCreateOrConnectWithoutCommentLikeInput = {
+  export type UserCreateOrConnectWithoutCommentLikesInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCommentLikeInput, UserUncheckedCreateWithoutCommentLikeInput>
+    create: XOR<UserCreateWithoutCommentLikesInput, UserUncheckedCreateWithoutCommentLikesInput>
   }
 
   export type CommentCreateWithoutLikesInput = {
@@ -20459,18 +20459,18 @@ export namespace Prisma {
     create: XOR<CommentCreateWithoutLikesInput, CommentUncheckedCreateWithoutLikesInput>
   }
 
-  export type UserUpsertWithoutCommentLikeInput = {
-    update: XOR<UserUpdateWithoutCommentLikeInput, UserUncheckedUpdateWithoutCommentLikeInput>
-    create: XOR<UserCreateWithoutCommentLikeInput, UserUncheckedCreateWithoutCommentLikeInput>
+  export type UserUpsertWithoutCommentLikesInput = {
+    update: XOR<UserUpdateWithoutCommentLikesInput, UserUncheckedUpdateWithoutCommentLikesInput>
+    create: XOR<UserCreateWithoutCommentLikesInput, UserUncheckedCreateWithoutCommentLikesInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutCommentLikeInput = {
+  export type UserUpdateToOneWithWhereWithoutCommentLikesInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutCommentLikeInput, UserUncheckedUpdateWithoutCommentLikeInput>
+    data: XOR<UserUpdateWithoutCommentLikesInput, UserUncheckedUpdateWithoutCommentLikesInput>
   }
 
-  export type UserUpdateWithoutCommentLikeInput = {
+  export type UserUpdateWithoutCommentLikesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -20489,10 +20489,10 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutCommentLikeInput = {
+  export type UserUncheckedUpdateWithoutCommentLikesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -20511,7 +20511,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type CommentUpsertWithoutLikesInput = {
@@ -20563,8 +20563,8 @@ export namespace Prisma {
     likes?: PostLikeCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutRepliesInput = {
@@ -20585,8 +20585,8 @@ export namespace Prisma {
     likes?: PostLikeUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutRepliesInput = {
@@ -20683,7 +20683,7 @@ export namespace Prisma {
     likeType: $Enums.likeTypes
     createdAt?: Date | string
     updatedAt?: Date | string
-    author: UserCreateNestedOneWithoutReplyLikeInput
+    author: UserCreateNestedOneWithoutReplyLikesInput
   }
 
   export type ReplyLikeUncheckedCreateWithoutReplyInput = {
@@ -20733,8 +20733,8 @@ export namespace Prisma {
     likes?: PostLikeUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRepliesInput = {
@@ -20755,8 +20755,8 @@ export namespace Prisma {
     likes?: PostLikeUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type CommentUpsertWithoutRepliesInput = {
@@ -20855,7 +20855,7 @@ export namespace Prisma {
     data: XOR<ReplyLikeUpdateManyMutationInput, ReplyLikeUncheckedUpdateManyWithoutReplyInput>
   }
 
-  export type UserCreateWithoutReplyLikeInput = {
+  export type UserCreateWithoutReplyLikesInput = {
     id?: string
     name: string
     username: string
@@ -20874,10 +20874,10 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
   }
 
-  export type UserUncheckedCreateWithoutReplyLikeInput = {
+  export type UserUncheckedCreateWithoutReplyLikesInput = {
     id?: string
     name: string
     username: string
@@ -20896,12 +20896,12 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
-  export type UserCreateOrConnectWithoutReplyLikeInput = {
+  export type UserCreateOrConnectWithoutReplyLikesInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutReplyLikeInput, UserUncheckedCreateWithoutReplyLikeInput>
+    create: XOR<UserCreateWithoutReplyLikesInput, UserUncheckedCreateWithoutReplyLikesInput>
   }
 
   export type ReplyCreateWithoutLikesInput = {
@@ -20931,18 +20931,18 @@ export namespace Prisma {
     create: XOR<ReplyCreateWithoutLikesInput, ReplyUncheckedCreateWithoutLikesInput>
   }
 
-  export type UserUpsertWithoutReplyLikeInput = {
-    update: XOR<UserUpdateWithoutReplyLikeInput, UserUncheckedUpdateWithoutReplyLikeInput>
-    create: XOR<UserCreateWithoutReplyLikeInput, UserUncheckedCreateWithoutReplyLikeInput>
+  export type UserUpsertWithoutReplyLikesInput = {
+    update: XOR<UserUpdateWithoutReplyLikesInput, UserUncheckedUpdateWithoutReplyLikesInput>
+    create: XOR<UserCreateWithoutReplyLikesInput, UserUncheckedCreateWithoutReplyLikesInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutReplyLikeInput = {
+  export type UserUpdateToOneWithWhereWithoutReplyLikesInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutReplyLikeInput, UserUncheckedUpdateWithoutReplyLikeInput>
+    data: XOR<UserUpdateWithoutReplyLikesInput, UserUncheckedUpdateWithoutReplyLikesInput>
   }
 
-  export type UserUpdateWithoutReplyLikeInput = {
+  export type UserUpdateWithoutReplyLikesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -20961,10 +20961,10 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutReplyLikeInput = {
+  export type UserUncheckedUpdateWithoutReplyLikesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -20983,7 +20983,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type ReplyUpsertWithoutLikesInput = {
@@ -21037,8 +21037,8 @@ export namespace Prisma {
     likes?: PostLikeCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
     replies?: ReplyCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -21059,8 +21059,8 @@ export namespace Prisma {
     likes?: PostLikeUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     replies?: ReplyUncheckedCreateNestedManyWithoutUserInput
-    CommentLike?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
-    ReplyLike?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
+    commentLikes?: CommentLikeUncheckedCreateNestedManyWithoutAuthorInput
+    replyLikes?: ReplyLikeUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -21097,8 +21097,8 @@ export namespace Prisma {
     likes?: PostLikeUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -21119,8 +21119,8 @@ export namespace Prisma {
     likes?: PostLikeUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     replies?: ReplyUncheckedUpdateManyWithoutUserNestedInput
-    CommentLike?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
-    ReplyLike?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    commentLikes?: CommentLikeUncheckedUpdateManyWithoutAuthorNestedInput
+    replyLikes?: ReplyLikeUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type PostCreateManyAuthorInput = {
@@ -21642,7 +21642,7 @@ export namespace Prisma {
     likeType?: EnumlikeTypesFieldUpdateOperationsInput | $Enums.likeTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutCommentLikeNestedInput
+    author?: UserUpdateOneRequiredWithoutCommentLikesNestedInput
   }
 
   export type CommentLikeUncheckedUpdateWithoutCommentInput = {
@@ -21714,7 +21714,7 @@ export namespace Prisma {
     likeType?: EnumlikeTypesFieldUpdateOperationsInput | $Enums.likeTypes
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutReplyLikeNestedInput
+    author?: UserUpdateOneRequiredWithoutReplyLikesNestedInput
   }
 
   export type ReplyLikeUncheckedUpdateWithoutReplyInput = {
