@@ -55,7 +55,7 @@ function ReactionViewer({
           ))}
         </div>
       </div>
-      <ul className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidsden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg">
+      <ul className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg">
         {likes.slice(0, 10).map((like) => (
           <li
             key={like.id}
