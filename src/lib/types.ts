@@ -4,7 +4,7 @@ import { likeTypes, Media, Post, PostLike, Profile, User } from "@/generated/pri
 
 export interface reactionType {
   src: string;
-  id: likeTypes;
+  type: likeTypes;
   alt: string;
   color: string;
 }

@@ -4,11 +4,11 @@ import Exapander from "../ui/Exapander";
 import { MessageSquare, ThumbsUp, Send } from "lucide-react";
 import Avatar from "../ui/Avatar";
 import Reactions from "./Reactions";
-import { FeedPost, FeedPostLike, reactionType } from "@/lib/types";
+import { FeedPost, FeedPostLike } from "@/lib/types";
 import { memo, useCallback, useMemo, useState } from "react";
-import { changeReactPost, reactPost, unreactPost } from "@/actions/posts";
+import { reactPost, unreactPost } from "@/actions/posts";
 import ReactionViewer from "./ReactionViewer";
-import { Media } from "@/generated/prisma";
+import { likeTypes, Media } from "@/generated/prisma";
 
 type PostProps = {
   post: FeedPost;
@@ -23,40 +23,44 @@ function PostItem({ className, post, userId }: PostProps) {
     [likes, userId]
   );
 
-  const onReact = useCallback(
-    async (
-      reaction: reactionType | undefined,
-      action: string,
-      callback: () => void
-    ) => {
-      // React request here
-      let newReaction: FeedPostLike;
-
-      if (action === "POST") {
-        newReaction = (await reactPost(reaction?.id, post.id)) as FeedPostLike;
-        setLikes((prev) => [...prev, newReaction] as FeedPostLike[]);
-      } else if (action === "DELETE") {
-        newReaction = (await unreactPost(yourLike?.id)) as FeedPostLike;
-        setLikes((prev) =>
-          prev.filter((like) => like.authorId !== newReaction.authorId)
-        );
-      } else {
-        newReaction = (await changeReactPost(
-          yourLike?.id,
+  const handleReactPost = useCallback(
+    async (reactionType: likeTypes) => {
+      try {
+        const newReaction = await reactPost(
+          reactionType,
           post.id,
-          reaction?.id
-        )) as FeedPostLike;
-        setLikes((prev) =>
-          prev.map((like) =>
-            like.authorId === newReaction?.authorId ? newReaction : like
-          )
+          yourLike?.id
         );
-      }
+        if (!newReaction) throw new Error();
 
-      if (!newReaction) callback();
+        setLikes(
+          (prev) =>
+            [
+              ...prev.filter((like) => like.id !== yourLike?.id),
+              newReaction,
+            ] as FeedPostLike[]
+        );
+        return newReaction;
+      } catch (error) {
+        console.log(error);
+      }
     },
-    [yourLike, post.id]
+    [yourLike, post]
   );
+
+  const handleUnreactPost = useCallback(async () => {
+    if (!yourLike) return;
+
+    try {
+      const newReaction = await unreactPost(yourLike.id);
+      if (!newReaction) throw new Error();
+
+      setLikes((prev) => prev.filter((like) => like.id !== yourLike.id));
+      return newReaction;
+    } catch (error) {
+      console.log(error);
+    }
+  }, [yourLike]);
 
   const onComment = useCallback(() => {
     // Comment request here
@@ -134,7 +138,11 @@ function PostItem({ className, post, userId }: PostProps) {
 
       {/* Actions */}
       <div className="flex justify-around space-x-4 px-4">
-        <Reactions onReact={onReact} initialReaction={yourLike?.likeType}>
+        <Reactions
+          onReact={handleReactPost}
+          onUnreact={handleUnreactPost}
+          initialReaction={yourLike?.likeType}
+        >
           <ThumbsUp />
           <span className="text-gray-700">Like</span>
         </Reactions>

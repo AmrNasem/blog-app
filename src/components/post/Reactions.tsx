@@ -9,11 +9,8 @@ import { reactionType } from "@/lib/types";
 import { likeTypes } from "@/generated/prisma";
 
 interface reactionsPropsType {
-  onReact: (
-    newReaction: reactionType | undefined,
-    action: string,
-    callback: () => void
-  ) => void;
+  onReact: (newReaction: likeTypes) => Promise<unknown>;
+  onUnreact: () => Promise<unknown>;
   children?: React.ReactNode;
   initialReaction?: likeTypes;
 }
@@ -21,77 +18,79 @@ interface reactionsPropsType {
 const reactions: reactionType[] = [
   {
     src: "/app/reactions/like.svg",
-    id: likeTypes.like,
+    type: likeTypes.like,
     alt: "Like",
     color: "#0471e5",
   },
   {
     src: "/app/reactions/love.svg",
-    id: likeTypes.love,
+    type: likeTypes.love,
     alt: "Love",
     color: "#eb2647",
   },
   {
     src: "/app/reactions/care.svg",
-    id: likeTypes.support,
+    type: likeTypes.support,
     alt: "Support",
     color: "#f17b58",
   },
   {
     src: "/app/reactions/haha.svg",
-    id: likeTypes.haha,
+    type: likeTypes.haha,
     alt: "Haha",
     color: "#f7c94c",
   },
   {
     src: "/app/reactions/wow.svg",
-    id: likeTypes.wow,
+    type: likeTypes.wow,
     alt: "Wow",
     color: "#fbc737",
   },
   {
     src: "/app/reactions/sad.svg",
-    id: likeTypes.sad,
+    type: likeTypes.sad,
     alt: "Sad",
     color: "#f7a441",
   },
   {
     src: "/app/reactions/angry.svg",
-    id: likeTypes.angry,
+    type: likeTypes.angry,
     alt: "Angry",
     color: "#f17b58",
   },
 ];
 
-function Reactions({ onReact, children, initialReaction }: reactionsPropsType) {
-  const [reaction, setReaction] = useState<reactionType | undefined>(reactions.find((r) => r.id === initialReaction));
+function Reactions({
+  onReact,
+  onUnreact,
+  children,
+  initialReaction,
+}: reactionsPropsType) {
+  const [reaction, setReaction] = useState<reactionType | undefined>(
+    reactions.find((r) => r.type === initialReaction)
+  );
+
   const [isOpen, setOpen] = useState(false);
 
-  // useEffect(() => {
-  //   setReaction(reactions.find((r) => r.id === initialReaction));
-  // }, [initialReaction]);
+  const handleReact = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (reaction?.type === e.currentTarget.id) return;
+    setReaction(reactions.find((r) => r.type === e.currentTarget.id));
+    const newReaction = await onReact(e.currentTarget.id as likeTypes);
+    if (!newReaction) setReaction(reaction);
 
-  // Function to handle reaction button click
-  const handleReaction = (e: React.MouseEvent<HTMLButtonElement>) => {
-    let newReaction = reactions.find((r) => r.id === e.currentTarget.id);
-
-    const callback = () => {
-      setReaction(reaction);
-    };
-
-    if (reaction) {
-      if (e.currentTarget.id === "toggle")
-        onReact(newReaction, "DELETE", callback);
-      else onReact(newReaction, "PUT", callback);
-    } else {
-      if (e.currentTarget.id === "toggle") {
-        newReaction = reactions[0];
-        onReact(newReaction, "POST", callback);
-      } else onReact(newReaction, "POST", callback);
-    }
-
-    setReaction(newReaction);
     setOpen(false);
+  };
+
+  const handleToggleLike = async () => {
+    if (reaction) {
+      setReaction(undefined);
+      const newReaction = await onUnreact();
+      if (!newReaction) setReaction(reaction);
+    } else {
+      setReaction(reactions.find((r) => r.type === likeTypes.like));
+      const newReaction = await onReact(likeTypes.like);
+      if (!newReaction) setReaction(undefined);
+    }
   };
 
   return (
@@ -103,8 +102,7 @@ function Reactions({ onReact, children, initialReaction }: reactionsPropsType) {
     >
       <HoverCardTrigger>
         <button
-          id="toggle"
-          onClick={handleReaction}
+          onClick={handleToggleLike}
           className={`flex gap-1 cursor-pointer px-3 py-2 text-center rounded-lg`}
         >
           {reaction ? (
@@ -131,12 +129,12 @@ function Reactions({ onReact, children, initialReaction }: reactionsPropsType) {
       >
         {reactions.map((r) => (
           <button
-            key={r.id}
-            id={r.id}
-            onClick={handleReaction}
+            key={r.type}
+            id={r.type}
+            onClick={handleReact}
             title={r.alt}
             className={`cursor-pointer rounded-full hover:-translate-y-1.5 hover:scale-120 duration-150 ${
-              reaction?.id === r.id
+              reaction?.type === r.type
                 ? "scale-120 bg-gray-300 border border-blue-300 p-px"
                 : ""
             }`}

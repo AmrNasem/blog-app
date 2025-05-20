@@ -7,7 +7,6 @@ import { getMe } from "@/actions/users";
 
 async function InfoSide({ className }: { className?: string }) {
   const user = await getMe();
-  console.log(user);
 
   return (
     <div
