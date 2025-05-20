@@ -18,6 +18,8 @@ type statsType = {
   [key: string]: number;
 };
 
+const MAX_REACT_VIEWS = 10;
+
 function ReactionViewer({
   className,
   likes,
@@ -56,23 +58,23 @@ function ReactionViewer({
         </div>
       </div>
       <ul className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg">
-        {likes.slice(0, 10).map((like) => (
+        {likes.slice(0, MAX_REACT_VIEWS).map((like) => (
           <li
             key={like.id}
-            className="flex items-center gap-1 text-sm text-gray-700"
+            className="flex items-center justify-between space-y-1 gap-2 text-sm text-gray-700"
           >
             <p className="text-nowrap">{like.author.name}</p>
             <Image
               src={reactions[like.likeType]}
               alt={like.author.name}
-              width="25"
-              height="25"
-              className="rounded-full"
+              width="18"
+              height="18"
+              className="rounded-full min-w-[18px]"
             />
           </li>
         ))}
-        {!!likes.slice(10).length && (
-          <li>{likes.slice(10).length} more people</li>
+        {!!likes.slice(MAX_REACT_VIEWS).length && (
+          <li className="text-black text-[13px] mt-3 text-center">{likes.slice(MAX_REACT_VIEWS).length} more people</li>
         )}
       </ul>
     </div>
