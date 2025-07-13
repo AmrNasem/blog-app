@@ -3,7 +3,11 @@ import { FeedPostLike } from "@/lib/types";
 import { normalizeBy1000 } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../ui/hover-card";
 
 const reactions = {
   [likeTypes.like]: "/app/reactions/like.svg",
@@ -43,17 +47,18 @@ function ReactionViewer({
   return (
     <HoverCard openDelay={20} closeDelay={20}>
       <HoverCardTrigger>
-        <div
-          className="flex items-center gap-0.5 hover:underline"
-        >
+        <div className="flex items-center gap-0.5 hover:underline">
           <p className="cursor-pointer">{normalizeBy1000(likes.length)}</p>
-          <div className={`${className} flex items-center`}>
+          <div className={`${className} flex items-center z-1`}>
             {sortedStats.slice(0, 3).map((stat, index) => (
               <Image
                 key={stat}
                 src={reactions[stat as likeTypes]}
                 alt={stat.split("").shift()?.toUpperCase() + stat.slice(1)}
-                style={{ transform: `translateX(-${index * 5}px)` }}
+                style={{
+                  transform: `translateX(-${index * 6}px)`,
+                  zIndex: -index + 1,
+                }}
                 className={`block border-2 border-white rounded-full`}
                 width={25}
                 height={25}
@@ -62,13 +67,8 @@ function ReactionViewer({
           </div>
         </div>
       </HoverCardTrigger>
-      <HoverCardContent
-
-        side="bottom"
-      >
-        <ul
-          className="space-y-1"
-        >
+      <HoverCardContent side="bottom">
+        <ul className="space-y-1">
           {/* className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col bg-white shadow-md p-2 rounded-lg" */}
           {likes.slice(0, MAX_REACT_VIEWS).map((like) => (
             <li
