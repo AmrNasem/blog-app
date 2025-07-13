@@ -19,6 +19,12 @@ export async function reactPost(
       postId,
       authorId: userId as string,
     },
+    select: {
+      id: true,
+      authorId: true,
+      author: { include: { profile: true } },
+      likeType: true,
+    },
   });
 
   return reaction;
@@ -26,28 +32,44 @@ export async function reactPost(
 
 export async function changeReactPost(
   id: string | undefined,
+  postId: string,
   likeType: likeTypes | undefined
 ) {
   if (!likeType) return;
 
   const reaction = await prisma.postLike.update({
     where: {
+      // authorId,
+      // postId,
+      // authorId_postId: `${authorId}_${postId}`
       id,
     },
     data: {
       likeType,
+    },
+    select: {
+      id: true,
+      authorId: true,
+      author: { include: { profile: true } },
+      likeType: true,
     },
   });
 
   return reaction;
 }
 
-export async function unreactPost(id: string | undefined) {
+export async function unreactPost(likeId: string | undefined) {
   const deleted = await prisma.postLike.delete({
     where: {
-      id,
+      id: likeId,
+    },
+    select: {
+      id: true,
+      authorId: true,
+      author: { include: { profile: true } },
+      likeType: true,
     },
   });
 
-  return deleted
+  return deleted;
 }

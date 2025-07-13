@@ -43,9 +43,7 @@ async function Feed() {
           <PostItem
             key={post.id}
             post={post as FeedPost}
-            yourLike={(post as FeedPost).likes.find(
-              (like) => like.authorId === userId
-            )}
+            userId={userId as string}
             className="my-5"
           />
         );

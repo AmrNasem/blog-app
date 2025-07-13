@@ -35,7 +35,10 @@ async function InfoSide({ className }: { className?: string }) {
         </h3>
       </div>
       {!user.profile?.isTouched && (
-        <Link href="/profile" className="w-fit border rounded text-sm px-2 py-1 block mx-auto bg-blue-500 text-white cursor-pointer border-blue-500">
+        <Link
+          href="/profile"
+          className="w-fit border rounded text-sm px-2 py-1 block mx-auto bg-blue-500 text-white cursor-pointer border-blue-500"
+        >
           Complete your profile
         </Link>
       )}

@@ -15,7 +15,7 @@ interface reactionsPropsType {
     callback: () => void
   ) => void;
   children?: React.ReactNode;
-  initialReaction?: string;
+  initialReaction?: likeTypes;
 }
 
 const reactions: reactionType[] = [
@@ -63,15 +63,13 @@ const reactions: reactionType[] = [
   },
 ];
 
-function Reactions({
-  onReact,
-  children,
-  initialReaction,
-}: reactionsPropsType) {
-  const [reaction, setReaction] = useState<reactionType | undefined>(
-    reactions.find((r) => r.id === initialReaction)
-  );
+function Reactions({ onReact, children, initialReaction }: reactionsPropsType) {
+  const [reaction, setReaction] = useState<reactionType | undefined>(reactions.find((r) => r.id === initialReaction));
   const [isOpen, setOpen] = useState(false);
+
+  // useEffect(() => {
+  //   setReaction(reactions.find((r) => r.id === initialReaction));
+  // }, [initialReaction]);
 
   // Function to handle reaction button click
   const handleReaction = (e: React.MouseEvent<HTMLButtonElement>) => {

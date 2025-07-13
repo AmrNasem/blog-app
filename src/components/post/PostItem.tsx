@@ -4,20 +4,24 @@ import Exapander from "../ui/Exapander";
 import { MessageSquare, ThumbsUp, Send } from "lucide-react";
 import Avatar from "../ui/Avatar";
 import Reactions from "./Reactions";
-import { FeedPost, reactionType } from "@/lib/types";
-import { memo, useCallback } from "react";
+import { FeedPost, FeedPostLike, reactionType } from "@/lib/types";
+import { memo, useCallback, useMemo, useState } from "react";
 import { changeReactPost, reactPost, unreactPost } from "@/actions/posts";
 import ReactionViewer from "./ReactionViewer";
-import { Media, PostLike } from "@/generated/prisma";
+import { Media } from "@/generated/prisma";
 
 type PostProps = {
   post: FeedPost;
   className?: string;
-  yourLike?: PostLike | undefined;
+  userId: string;
 };
 
-function PostItem({ className, post, yourLike }: PostProps) {
-  console.log(post);
+function PostItem({ className, post, userId }: PostProps) {
+  const [likes, setLikes] = useState(post.likes);
+  const yourLike = useMemo(
+    () => likes.find((like) => like.authorId === userId),
+    [likes, userId]
+  );
 
   const onReact = useCallback(
     async (
@@ -26,13 +30,28 @@ function PostItem({ className, post, yourLike }: PostProps) {
       callback: () => void
     ) => {
       // React request here
-      let newReaction;
+      let newReaction: FeedPostLike;
 
-      if (action === "POST")
-        newReaction = await reactPost(reaction?.id, post.id);
-      else if (action === "DELETE")
-        newReaction = await unreactPost(yourLike?.id);
-      else newReaction = await changeReactPost(yourLike?.id, reaction?.id);
+      if (action === "POST") {
+        newReaction = (await reactPost(reaction?.id, post.id)) as FeedPostLike;
+        setLikes((prev) => [...prev, newReaction] as FeedPostLike[]);
+      } else if (action === "DELETE") {
+        newReaction = (await unreactPost(yourLike?.id)) as FeedPostLike;
+        setLikes((prev) =>
+          prev.filter((like) => like.authorId !== newReaction.authorId)
+        );
+      } else {
+        newReaction = (await changeReactPost(
+          yourLike?.id,
+          post.id,
+          reaction?.id
+        )) as FeedPostLike;
+        setLikes((prev) =>
+          prev.map((like) =>
+            like.authorId === newReaction?.authorId ? newReaction : like
+          )
+        );
+      }
 
       if (!newReaction) callback();
     },
@@ -52,6 +71,7 @@ function PostItem({ className, post, yourLike }: PostProps) {
         <Avatar
           src={post.author.profile.avatar || "/app/user-avatar.png"}
           alt={post.author.name}
+          priority
         />
         <div>
           <h4 className="font-semibold">{post.author.name}</h4>
@@ -95,8 +115,8 @@ function PostItem({ className, post, yourLike }: PostProps) {
 
       {/* Viewing Stats */}
       <div className="px-6.5 flex justify-between items-center text-sm text-gray-600 mb-4">
-        {post.likes.length ? (
-              <ReactionViewer likes={post.likes} />
+        {likes.length ? (
+          <ReactionViewer likes={likes} />
         ) : (
           <p className="">Be the first to like</p>
         )}
